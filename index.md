@@ -84,11 +84,9 @@ We invite researchers to develop and submit models for 3D semantic occupancy pre
 
 Participants are tasked with predicting **3D semantic occupancy grids** from **multi-view camera images**.
 
-The occupancy grid is defined over a predefined spatial volume with semantic classes including:
+The occupancy grid is defined over a predefined spatial volume with 9 semantic classes including:
 
 `vehicle, pedestrian, bicycle, traffic_cone, barrier, czone_sign, generic_object, background, empty`
-
-> Note: Your doc mentions “10 semantic classes”, but the list above contains 9. If there is an additional class, add it here and update the list.
 
 **Two tracks are supported:**
 - **Discriminative Track:** Predict occupancy from input images.
