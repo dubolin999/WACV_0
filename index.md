@@ -1,93 +1,87 @@
 ---
 layout: default
-title: Adversarial Driving Scene Generation Challenge @ TopoCoT Workshop 2026
-description: Challenge SOTA E2E AD models by curating adversarial driving scenes
+title: Robust and Safe Embodied Intelligence in Challenging Scenarios @ TopoCoT Workshop 2026
+description: The unified Generalist VLA Agent capable of performing perception, reasoning, and planning tasks simultaneously within unstructured driving contexts.
 ---
 
-:wave: Welcome to the **Adversarial Driving Scene Generation Challenge** organized at :wave:
+👋 Welcome to the **Robust and Safe Embodied Intelligence in Challenging Scenarios** organized at 👋
 [<img class="rounded-rect" src="assets/imgs/wacv2026.png" width="420px" alt="WACV 2026"/>](https://wacv2026.thecvf.com)
 {: .text-center}
 
 **Workshop / Challenge Info:**
 
 <div class="container">
-  <img class="rounded-rect" src="assets/imgs/AD0.jpg" alt="Challenge Overview Figure"/>
+  <img class="rounded-rect" src="assets/imgs/RS0.png" alt="Challenge Overview Figure"/>
 </div>
 {: .text-center}
 
-
 ---
+
 ## 📄 **Paper** {#paper}
 
- **Reference Paper (arXiv)**: [Challenger: Affordable adversarial driving video generation](https://arxiv.org/abs/2505.15880)
+**Reference Paper (arXiv)**: [Impromptu VLA: Open Weights and Open Data for Driving Vision-Language-Action Models](https://arxiv.org/abs/2505.23757)
 
 ---
 
 ## 📌 **Overview** {#overview}
 
 **The Reality Gap:**
-While autonomous driving systems have made remarkable progress, they remain fragile in "corner cases"—rare, unexpected, or aggressive scenarios that often lead to safety-critical failures. Ensuring robustness in these conditions is currently a major bottleneck for real-world deployment. 
+Autonomous driving systems have achieved remarkable proficiency in structured environments such as urban centers and highways. However, the "last mile" of truly ubiquitous autonomy lies in the ability to navigate **unstructured scenarios**—the chaotic, unpredictable, and "corner case" environments where current models frequently falter.
 
 **The Challenge:**
-Current benchmarks lack the ability to systematically stress-test End-to-End (E2E) driving models against these edge cases. This competition addresses that gap by focusing on Adversarial Driving Scene Generation. Your task is to create synthetic driving scenes that feature adversarial or aggressive traffic participants. 
+To bridge this gap, this challenge leverages the **Impromptu VLA Dataset**, a large-scale collection of roughly 80,000 clips curated specifically to capture diverse and challenging unstructured scenarios. Participants are invited to develop **Vision-Language-Action (VLA)** models that can not only perceive and reason about complex environments but also generate safe and accurate planning trajectories.
 
-**The Objective:**
-This challenge flips the traditional evaluation paradigm. Instead of optimizing for higher driving scores, we incentivize you to generate scenarios that degrade model performance. Success is measured by your ability to induce failures in state-of-the-art E2E driving models while maintaining plausibility, helping the community to better understand and fix critical model weaknesses. 
+<div class="container">
+  <img class="rounded-rect" src="assets/imgs/RS1.png" alt="Challenge Overview Figure"/>
+</div>
+{: .text-center}
 
 ---
 
 ## 🎯 **Task** {#task}
 
-Your mission is to generate **adversarial driving scenarios** that induce failures in SOTA E2E autonomous driving models. You will achieve this by subtly modifying real-world scenes to create difficult but physically plausible "corner cases". 
+The challenge is structured around a **Planning-Oriented Question-Answering (Q&A)** format. Models must process multi-view images to generate text-based reasoning and vector-based trajectory outputs.
 
-**The Process:**
-* **Input Data**: You will use abstract driving scenes originated from the **nuScenes** dataset.
-* **Trajectory Manipulation**: You are allowed to manipulate the trajectory of **exactly one** background vehicle (the "adversarial agent"). 
-* **Objective**: Create an aggressive or unexpected interaction with the autonomous ego vehicle. 
+**1. Scene Understanding & Perception (Q&A):**
+* **Vulnerable Road User (VRU) Identification**: Detect pedestrians, cyclists, or motorcyclists in challenging lighting or occlusion.
+* **Traffic Signal Detection**: Identify the status of traffic lights (Red, Green, Yellow, None) even when they are non-standard.
 
-**Strict Constraints:**
-* **Minimum Safety Distance**: The adversarial vehicle must never approach within [TBD] meters (no ramming). 
-* **No Background Collisions**: Must not collide with other background traffic. 
-* **Drivable Area**: Must remain within road boundaries at all times. 
+**2. Reasoning & Prediction (Q&A):**
+* **Dynamic Object Prediction**: Predict the motion intention (Speed and Path) of unconventional obstacles.
+* **Meta-Action Planning**: Generate high-level decisions (e.g., "Decelerate and Nudge Left") based on the unstructured context.
+* **Drivable Area**: The ego-vehicle must remain within road boundaries at all times.
+
+**3. End-to-End Trajectory Planning:**
+* Given the ego-vehicle’s past state (1.5s history), predict future waypoints for the next 5 seconds.
+
 ---
 
 ## ⚙️ **Evaluation** {#evaluation}
 
-Submissions are evaluated through a three-stage pipeline to ensure realism and effectiveness: 
+Evaluation is conducted on the Impromptu VLA Validation Set. Performance is assessed using two primary categories of metrics:
 
-1. **Kinematic Rectification**: Ensures the trajectory is smooth and physically executable via LQR controller. This step enforces dynamic feasibility, ensuring the adversarial vehicle's movement is physically executable.
-2. **Neural Rendering**: Converts scenarios into high-fidelity RGB video clips for realistic visual testing.
-3. **Performance Testing & Scoring**: Clips are fed into four SOTA E2E AD models in an **open-loop setting**. 
+**1. Perception & Reasoning Metrics (Accuracy)**
+For text-generation tasks, we calculate exact match accuracy against the ground truth (Higher is better).
+* **V.R.U. Accuracy**: Identifying vulnerable road users.
+* **T. Light Accuracy**: Classification of traffic signal states.
+* **Dyn. Obj. Accuracy**: Precision of motion intention predictions.
+* **Meta-Planning (M.P.) Accuracy**: Correctness of high-level driving decisions.
 
-* **Primary Metric:** The models are evaluated based on their **Average Collision Rate** across your generated scenes. 
-* **Ranking:** Contrary to standard benchmarks, **higher is better**. A higher rate indicates a more successful adversarial scenario.
-
----
-
-## 🏆 **Baseline & Benchmark** {#baseline}
-
-<div class="container">
-  <img class="rounded-rect" src="assets/imgs/AD1.png" alt="Adversarial scenarios and performance degradation"/>
-</div>
-{: .text-center}
-*Photorealistic adversarial driving scenarios and observed performance degradation in terms of collision rate.* 
+**2. Action Metric (Trajectory L2 Error)**
+For the end-to-end planning task, we measure the Euclidean distance between predicted waypoints and ground truth (Lower is better).
+* **L2 Error (meters)**: Calculated at 1s, 2s, 3s, and 4s horizons.
+* **Average L2**: The final ranking will heavily weight the Average L2 Error across all time steps.
 
 ---
 
 ## 📚 **Recommended Readings & Citations** {#citations}
 
-Participants are encouraged to read and cite the following work: 
+Participants are encouraged to read and cite the following work:
 
 ```bibtex
-@article{xu2025challenger,
-  title={Challenger: Affordable adversarial driving video generation},
-  author={Xu, Zhiyuan and Li, Bohan and Gao, Huan-ang and Gao, Mingju and Chen, Yong and Liu, Ming and Yan, Chenxu and Zhao, Hang and Feng, Shuo and Zhao, Hao},
-  journal={arXiv preprint arXiv:2505.15880},
+@article{chi2025impromptu,
+  title={Impromptu VLA: Open Weights and Open Data for Driving Vision-Language-Action Models},
+  author={Chi, Haohan and Gao, Huan-ang and Liu, Ziming and Liu, Jianing and Liu, Chenyu and Li, Jinwei and Yang, Kaisen and Yu, Yangcheng and Wang, Zeda and Li, Wenyi and others},
+  journal={arXiv preprint arXiv:2505.23757},
   year={2025}
 }
-
-<style>
-  footer, .site-footer, .owner {
-    display: none !important;
-  }
-</style>
