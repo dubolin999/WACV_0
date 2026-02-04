@@ -85,3 +85,10 @@ Participants are encouraged to read and cite the following work:
   journal={arXiv preprint arXiv:2505.23757},
   year={2025}
 }
+
+
+<style>
+  footer, .site-footer, .owner {
+    display: none !important;
+  }
+</style>
