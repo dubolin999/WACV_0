@@ -33,7 +33,7 @@ description: Challenge SOTA E2E AD models by curating adversarial driving scenes
 **The Objective:**
 * This challenge flips the traditional evaluation paradigm. Instead of optimizing for higher driving scores, we incentivize you to generate scenarios that degrade model performance. Success is measured by your ability to induce failures in state-of-the-art E2E driving models while maintaining plausibility, helping the community to better understand and fix critical model weaknesses.
 
----
+
 
 ## 🎯 **Task** {#task}
 
