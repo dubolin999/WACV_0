@@ -86,7 +86,6 @@ Participants are encouraged to read and cite the following work:
   year={2025}
 }
 
-
 <style>
   footer, .site-footer, .owner {
     display: none !important;
